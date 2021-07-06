@@ -27,6 +27,32 @@ public class MBwaySplitInsuranceController {
 	}
 	
 	public int splitInsurance() throws AccountException, BankException {
+		int parameters_confirmation = checkParameters();
+		if (parameters_confirmation != 1)
+			return parameters_confirmation;
+		else {
+			String target_iban = mbway.getIbanByPhoneNumber(target_phone_number);
+			for (int i = 0; i < num_family_members - 1; i++) {
+				String source_phone_number = mbway_friends.getPhoneNumber(i);
+				int transfer_amount = mbway_friends.getAmount(source_phone_number);
+				String source_iban = mbway.getIbanByPhoneNumber(source_phone_number);
+				try {
+					services.withdraw(source_iban, transfer_amount);
+				} catch (Exception e) {
+					return 9;	//nao tem saldo
+				}
+				try {
+					services.deposit(target_iban, transfer_amount);
+				} catch (Exception e) {
+					services.deposit(source_iban, transfer_amount);
+					return 9;	//nao tem saldo
+				}
+			}
+		return parameters_confirmation;
+		}
+	}
+	
+	public int checkParameters() {
 		if ((num_family_members - 1) - mbway_friends.getTotalNumberOfFriends() == 1)
 			return 0;	// Falta 1 friend
 		else if ((num_family_members - 1) - mbway_friends.getTotalNumberOfFriends() > 1)
@@ -46,21 +72,9 @@ public class MBwaySplitInsuranceController {
 			} catch (ClientException e1) {
 				return 8;		// invalid phone number
 			}
-		String target_iban = mbway.getIbanByPhoneNumber(target_phone_number);
-		for (int i = 0; i < num_family_members - 1; i++) {
-			String source_phone_number = mbway_friends.getPhoneNumber(i);
-			int transfer_amount = mbway_friends.getAmount(source_phone_number);
-			String source_iban = mbway.getIbanByPhoneNumber(source_phone_number);
-			try {
-				services.withdraw(source_iban, transfer_amount);
-				services.deposit(target_iban, transfer_amount);
-			} catch (Exception e) {
-				return 9;	//nao tem saldo
-			}
-		}
 		return 1;
 	}
-	
+
 	public int verifyFriends() throws ClientException {
 		int counter = 0;
 		for (String phone : mbway_friends.getDB().keySet()) {
@@ -71,6 +85,5 @@ public class MBwaySplitInsuranceController {
 		}
 		return counter;
 	}
-	
-	
+
 }
