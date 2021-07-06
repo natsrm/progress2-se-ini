@@ -75,13 +75,13 @@ public class View {
 				view.transferView(result_task3);
 				break;
 			case "mbway-split-insurance":
-				MBwayFriends mbway_friends = new MBwayFriends();
 				num_family_members = sc.nextInt();
 				amount = sc.nextInt();
 				boolean end = false;
 				String input = sc.next();
 				target_phone_number = sc.next();
 				int amount_target = sc.nextInt();
+				MBwayFriends mbway_friends = new MBwayFriends(num_family_members, amount, target_phone_number, amount_target);
 				while(end == false) {
 					input = sc.next();
 					switch(input) {
@@ -95,7 +95,7 @@ public class View {
 						break;
 					}
 				}
-				MBwaySplitInsuranceController task4 = new MBwaySplitInsuranceController(num_family_members, amount, target_phone_number, amount_target, mbway_friends, mbway);
+				MBwaySplitInsuranceController task4 = new MBwaySplitInsuranceController(mbway_friends, mbway);
 				int result_task4 = task4.splitInsurance();
 				view.splitInsuranceView(result_task4);
 				break;

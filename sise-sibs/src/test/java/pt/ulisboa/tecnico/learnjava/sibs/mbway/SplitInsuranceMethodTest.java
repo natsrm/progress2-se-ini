@@ -58,16 +58,16 @@ public class SplitInsuranceMethodTest {
 		mbway.createNewClient(target_phone, target_iban, "target");
 		mbway.createNewClient(source_phone2, source_iban2, "source2");
 		mbway.createNewClient(source_phone3, source_iban3, "source3");
-		this.mbway_friends = new MBwayFriends();
 	}
 	
 	@Test
 	public void success() throws BankException, AccountException {
 		this.num_friends = 3;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend(source_phone3, 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -82,9 +82,10 @@ public class SplitInsuranceMethodTest {
 	public void MissingOneFriend() throws AccountException, BankException {
 		this.num_friends = 4;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend(source_phone3, 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -99,9 +100,10 @@ public class SplitInsuranceMethodTest {
 	public void MissingMoreThanOneFriend() throws AccountException, BankException {
 		this.num_friends = 5;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend(source_phone3, 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -116,9 +118,10 @@ public class SplitInsuranceMethodTest {
 	public void OneFriendTooMany() throws AccountException, BankException {
 		this.num_friends = 2;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend(source_phone3, 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -133,9 +136,10 @@ public class SplitInsuranceMethodTest {
 	public void TooManyFriends() throws AccountException, BankException {
 		this.num_friends = 1;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend(source_phone3, 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -150,9 +154,10 @@ public class SplitInsuranceMethodTest {
 	public void PayedTooMuch() throws AccountException, BankException {
 		this.num_friends = 3;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend(source_phone3, 500);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -167,9 +172,10 @@ public class SplitInsuranceMethodTest {
 	public void PayedTooLittle() throws AccountException, BankException {
 		this.num_friends = 3;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 250);
 		mbway_friends.addFriend(source_phone3, 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -184,9 +190,10 @@ public class SplitInsuranceMethodTest {
 	public void OneFriendWithoutMBway() throws AccountException, BankException {
 		this.num_friends = 3;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend("921234567", 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -201,9 +208,10 @@ public class SplitInsuranceMethodTest {
 	public void MoreThanOneFriendWithoutMBway() throws AccountException, BankException {
 		this.num_friends = 3;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend("921234568", 500);
 		mbway_friends.addFriend("921234567", 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -218,9 +226,10 @@ public class SplitInsuranceMethodTest {
 	public void InvalidPhoneNumberLength() throws AccountException, BankException {
 		this.num_friends = 3;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend("9212345", 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -235,9 +244,10 @@ public class SplitInsuranceMethodTest {
 	public void InvalidPhoneNumberChar() throws AccountException, BankException {
 		this.num_friends = 3;
 		this.amount = 1000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 250);
 		mbway_friends.addFriend(source_phone2, 500);
 		mbway_friends.addFriend("PN1234567", 250);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 250, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
@@ -252,9 +262,10 @@ public class SplitInsuranceMethodTest {
 	public void NotEnoughBalance() throws AccountException, BankException {
 		this.num_friends = 3;
 		this.amount = 5000;
+		this.mbway_friends = new MBwayFriends(num_friends, amount, target_phone, 100);
 		mbway_friends.addFriend(source_phone2, 100);
 		mbway_friends.addFriend(source_phone3, 4800);
-		this.controller = new MBwaySplitInsuranceController(num_friends, amount, target_phone, 100, mbway_friends, mbway);
+		this.controller = new MBwaySplitInsuranceController(mbway_friends, mbway);
 		this.result = controller.splitInsurance();
 		this.target_balance = (services.getAccountByIban(target_iban)).getBalance();
 		this.source_balance2 = (services.getAccountByIban(source_iban2)).getBalance();
