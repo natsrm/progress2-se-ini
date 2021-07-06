@@ -12,14 +12,13 @@ public class MBwayTransferController {
 	private String target_phone;
 	private int amount;
 	private MBway mbway;
-	private Services services;
+	private Services services = new Services();
 	
-	public MBwayTransferController(String _source_phone, String _target_phone, int _amount, MBway _mbway, Services _services) {
+	public MBwayTransferController(String _source_phone, String _target_phone, int _amount, MBway _mbway) {
 		source_phone = _source_phone;
 		target_phone = _target_phone;
 		amount = _amount;
 		mbway = _mbway;
-		services = _services;
 	}
 	
 	public int transfer() throws AccountException, BankException {

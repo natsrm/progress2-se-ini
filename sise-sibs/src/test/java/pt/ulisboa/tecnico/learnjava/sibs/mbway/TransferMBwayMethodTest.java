@@ -59,7 +59,7 @@ public class TransferMBwayMethodTest {
 //			this.associateController_target = new AssociateMBwayController(target_iban, target_phone,mbway, services);
 //			this.target_confirmation_code = associateController_target.setClient();
 //			this.confirmController_target = new ConfirmMBwayController(target_phone,target_confirmation_code,mbway);
-			this.transferController = new MBwayTransferController(source_phone,target_phone,50,mbway,services);
+			this.transferController = new MBwayTransferController(source_phone,target_phone,50,mbway);
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -71,7 +71,7 @@ public class TransferMBwayMethodTest {
 		@Test 
 		public void invalidSourcePhoneWithFewerNumbersInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(target_phone,target_iban, "transfer_code");
-			this.transferController = new MBwayTransferController("91325688",target_phone,50,mbway,services);//source code is wrong (only 8 char)
+			this.transferController = new MBwayTransferController("91325688",target_phone,50,mbway);//source code is wrong (only 8 char)
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -83,7 +83,7 @@ public class TransferMBwayMethodTest {
 		@Test 
 		public void invalidTargetWithFewerNumbersInPhoneInTransfer () throws BankException, AccountException{
 			this.mbway.createNewClient(source_phone,source_iban, "source_code");
-			this.transferController = new MBwayTransferController(source_phone,"98963625",50,mbway,services);//target phone is wrong (only 8 char)
+			this.transferController = new MBwayTransferController(source_phone,"98963625",50,mbway);//target phone is wrong (only 8 char)
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -95,7 +95,7 @@ public class TransferMBwayMethodTest {
 		@Test 
 		public void invalidSourcePhoneWithLettersInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(target_phone,target_iban, "transfer_code");
-			this.transferController = new MBwayTransferController("91325688N",target_phone,50,mbway,services);//source phone is wrong (contains letters)
+			this.transferController = new MBwayTransferController("91325688N",target_phone,50,mbway);//source phone is wrong (contains letters)
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -107,7 +107,7 @@ public class TransferMBwayMethodTest {
 		@Test 
 		public void invalidTargeInPhonetWithLettersInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(source_phone,source_iban, "source_code");
-			this.transferController = new MBwayTransferController(source_phone,"98963625N",50,mbway,services);//target phone is wrong (contains Letters)
+			this.transferController = new MBwayTransferController(source_phone,"98963625N",50,mbway);//target phone is wrong (contains Letters)
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -120,7 +120,7 @@ public class TransferMBwayMethodTest {
 		public void invalidTargetIbanInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(source_phone,source_iban, "source_code");
 			this.mbway.createNewClient(target_phone,"target_iban", "target_code");
-			this.transferController = new MBwayTransferController(source_phone,target_phone,50,mbway,services);//target iban is wrong 
+			this.transferController = new MBwayTransferController(source_phone,target_phone,50,mbway);//target iban is wrong 
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -133,7 +133,7 @@ public class TransferMBwayMethodTest {
 		public void invalidSourceIbanInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(source_phone,"source_iban", "source_code");
 			this.mbway.createNewClient(target_phone,target_iban, "target_code");
-			this.transferController = new MBwayTransferController(source_phone,target_phone,50,mbway,services);//source iban is wrong 
+			this.transferController = new MBwayTransferController(source_phone,target_phone,50,mbway);//source iban is wrong 
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -146,7 +146,7 @@ public class TransferMBwayMethodTest {
 		public void invalidAmountInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(source_phone,source_iban, "source_code");
 			this.mbway.createNewClient(target_phone,target_iban, "transfer_code");
-			this.transferController = new MBwayTransferController(source_phone,target_phone,-50,mbway,services);//amount is negative
+			this.transferController = new MBwayTransferController(source_phone,target_phone,-50,mbway);//amount is negative
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -159,7 +159,7 @@ public class TransferMBwayMethodTest {
 		public void amountBiggerThanBalanceInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(source_phone,source_iban, "source_code");
 			this.mbway.createNewClient(target_phone,target_iban, "transfer_code");
-			this.transferController = new MBwayTransferController(source_phone,target_phone,1050,mbway,services); //amount is bigger than balance
+			this.transferController = new MBwayTransferController(source_phone,target_phone,1050,mbway); //amount is bigger than balance
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			int target_balance = (services.getAccountByIban(target_iban)).getBalance();
@@ -171,7 +171,7 @@ public class TransferMBwayMethodTest {
 		@Test 
 		public void phoneNumberNotAssociatedInTransfer () throws BankException, AccountException {
 			this.mbway.createNewClient(source_phone,source_iban, "source_code");
-			this.transferController = new MBwayTransferController(source_phone,target_phone,1050,mbway,services);
+			this.transferController = new MBwayTransferController(source_phone,target_phone,1050,mbway);
 			int result = transferController.transfer();
 			int source_balance = (services.getAccountByIban(source_iban)).getBalance();
 			assertEquals(3, result);

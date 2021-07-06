@@ -26,6 +26,8 @@ public class MBwaySplitInsuranceController {
 		mbway = _mbway;
 	}
 	
+	/* This is the refactor for guideline 'write simple units of code'
+	 * We created a new method to perform the validation of the parameters. */
 	public int splitInsurance() throws AccountException, BankException {
 		int parameters_confirmation = checkParameters();
 		if (parameters_confirmation != 1)

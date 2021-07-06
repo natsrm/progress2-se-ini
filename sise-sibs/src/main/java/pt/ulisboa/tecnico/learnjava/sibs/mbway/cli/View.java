@@ -70,7 +70,7 @@ public class View {
 				phone_number = sc.next();
 				target_phone_number = sc.next();
 				amount = sc.nextInt();
-				MBwayTransferController task3 = new MBwayTransferController(phone_number, target_phone_number, amount, mbway, services);
+				MBwayTransferController task3 = new MBwayTransferController(phone_number, target_phone_number, amount, mbway);
 				int result_task3 = task3.transfer();
 				view.transferView(result_task3);
 				break;
