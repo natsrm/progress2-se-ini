@@ -9,7 +9,10 @@ public class MBwayFriends {
 	private String target_phone_number;
 	private int target_amount;
 	private Hashtable<String, Integer> db = new Hashtable<String, Integer>();
-	
+
+	/* This is the refactor for guideline 'Keep Unit Interfaces Small'
+	 * We altered the constructor of this class so the constructor of
+	 * MBwaySplitInsuranceController had less parameters */
 	public MBwayFriends(int _num_family_members, int _amount, String _target_phone_number, int _target_amount) {
 		num_family_members = _num_family_members;
 		amount = _amount;

@@ -145,14 +145,6 @@ public class ProcessMethodTest {
 		assertEquals(true, operation_error.getState() instanceof Retry);
 	}
 	
-//	@Test (expected = BankException.class)
-//	public void InvalidAccounts () throws AccountException, OperationException, BankException {
-//		String target_iban2 = "CGDTarget_iban2";
-//		String source_iban2 = "CGDSource_iban2";
-//		Operation op4 = new Operation(source_iban2, target_iban2, VALUE, ID);
-//		op4.process(services);
-//	}
-	
 	@Test
 	public void InvalidSourceAccountBeforeCompleted() throws BankException, AccountException {
 		operation.process(services);

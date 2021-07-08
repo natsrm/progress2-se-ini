@@ -30,7 +30,7 @@ public class View {
 		View view = new View();
 		MBway mbway = new MBway();
 		
-		// Populate´
+		// Populate
 		Services services = new Services();
 		Bank bank1 = new Bank("CGD");
 		Bank bank2 = new Bank("BPI");
@@ -108,8 +108,33 @@ public class View {
 
 	}
 
-	private void invalidInputView() {
-		System.out.println("This input is not valid. Try again.");
+	public void associateMBwayView(String code) {
+		if (code.equals("0"))
+			System.out.println("This IBAN is invalid. Try association again.");
+		else if (code.equals("1"))
+			System.out.println("This phone number is invalid. Try association again.");
+		else
+			System.out.println("Code: " + code + " (don't share it with anyone)");
+	}
+	
+	private void confirmMBwayView(int result) {
+		if (result == 0)
+			System.out.println("Wrong confirmation code. Try association again.");
+		else if (result == 1)
+			System.out.println("MBWAY association confirmed successfully!");
+		else
+			System.out.println("This phone number is invalid. Try association again.");
+	}
+	
+	private void transferView(int result) {
+		if (result == 0)
+			System.out.println("Something is wrong. Are the phone numbers correct?");
+		else if (result == 1)
+			System.out.println("Transfer perfomed successfully!");
+		else if (result == 2)
+			System.out.println("Not enough money on the source account.");
+		else
+			System.out.println("Wrong phone number.");
 	}
 
 	private void splitInsuranceView(int result) {
@@ -135,33 +160,8 @@ public class View {
 			System.out.println("Oh no! At least one family member doesn't have money to pay!");
 	}
 
-	private void transferView(int result) {
-		if (result == 0)
-			System.out.println("Something is wrong. Are the phone numbers correct?");
-		else if (result == 1)
-			System.out.println("Transfer perfomed successfully!");
-		else if (result == 2)
-			System.out.println("Not enough money on the source account.");
-		else
-			System.out.println("Wrong phone number.");
-	}
-
-	public void associateMBwayView(String code) {
-		if (code.equals("0"))
-			System.out.println("This IBAN is invalid. Try association again.");
-		else if (code.equals("1"))
-			System.out.println("This phone number is invalid. Try association again.");
-		else
-			System.out.println("Code: " + code + " (don't share it with anyone)");
-	}
-	
-	private void confirmMBwayView(int result) {
-		if (result == 0)
-			System.out.println("Wrong confirmation code. Try association again.");
-		else if (result == 1)
-			System.out.println("MBWAY association confirmed successfully!");
-		else
-			System.out.println("This phone number is invalid. Try association again.");
+	private void invalidInputView() {
+		System.out.println("This input is not valid. Try again.");
 	}
 	
 }

@@ -18,7 +18,7 @@ public class GetTotalValueOfOperationsMethodTest {
 	
 	private Sibs sibs;
 	
-	@Before // == BeforeEach
+	@Before
 	public void setUp() {
 		sibs = new Sibs(3, new Services());
 	}

@@ -1,7 +1,5 @@
 package pt.ulisboa.tecnico.learnjava.sibs.mbway;
 
-import java.util.Hashtable;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -28,8 +28,9 @@ public class MBwaySplitInsuranceController {
 		target_amount = mbway_friends.getTargetAmount();	
 	}
 	
-	/* This is the refactor for guideline 'write simple units of code'
-	 * We created a new method to perform the validation of the parameters. */
+	/* This is the refactor for guidelines 'write simple units of code' and 'write short units of code'
+	 * We created a new method to perform the validation of the parameters, and a new method to perform
+	 * the transfers to the target iban. This way, both the amount of code lines and branches decreased. */
 	public int splitInsurance() throws AccountException, BankException {
 		int parameters_confirmation = checkParameters();
 		if (parameters_confirmation != 1)
@@ -43,23 +44,23 @@ public class MBwaySplitInsuranceController {
 	
 	public int checkParameters() {
 		if ((num_family_members - 1) - mbway_friends.getTotalNumberOfFriends() == 1)
-			return 0;	// Falta 1 friend
+			return 0;	// 1 friend misisng
 		else if ((num_family_members - 1) - mbway_friends.getTotalNumberOfFriends() > 1)
-			return 2;	// Falta mais que um friend
+			return 2;	// More than 1 friend missing
 		else if ((num_family_members - 1) - mbway_friends.getTotalNumberOfFriends() == -1)
-			return 3;	// 1 friend a mais
+			return 3;	// 1 friend too many
 		else if ((num_family_members - 1) - mbway_friends.getTotalNumberOfFriends() < -1)
-			return 4;	// mais que um friend a mais
+			return 4;	// More than 1 friend too many
 		else if ((amount - target_amount) != mbway_friends.getTotalAmountPaidByFriends())
-			return 5;	// Pago demasiado/a menos
+			return 5;	// Paid value is different (less or more)
 		else
 			try {
 				if (verifyFriends() == 1)
-					return 6;	// um friend nao tem mbway
+					return 6;	// 1 friend doesn't have mbway
 				else if (verifyFriends() > 1)
-					return 7;	//mais que um friend nao tem mbway
+					return 7;	// More than 1 friend doesn't have mbway
 			} catch (ClientException e1) {
-				return 8;		// invalid phone number
+				return 8;		// Invalid phone number
 			}
 		return 1;
 	}
@@ -72,13 +73,13 @@ public class MBwaySplitInsuranceController {
 			try {
 				services.withdraw(source_iban, transfer_amount);
 			} catch (Exception e) {
-				return 9;	//nao tem saldo
+				return 9;	// Not enough balance
 			}
 			try {
 				services.deposit(target_iban, transfer_amount);
 			} catch (Exception e) {
 				services.deposit(source_iban, transfer_amount);
-				return 9;	//nao tem saldo
+				return 9;	// Return the value that was already withdrawn
 			}
 		}
 		return 1;

@@ -53,7 +53,7 @@ public abstract class Account {
 
 	}
 
-	public void withdraw(int amount) throws AccountException { //CONFIRMAR
+	public void withdraw(int amount) throws AccountException {
 		if (this.inactive) {
 			throw new AccountException(amount);
 		}
@@ -62,7 +62,8 @@ public abstract class Account {
 			throw new AccountException();
 		}
 		
-		if (this.balance < amount) { ///////////////////
+		// This was introduced, so it would throw an exception
+		if (this.balance < amount) {
 			throw new AccountException(amount);
 		}
 

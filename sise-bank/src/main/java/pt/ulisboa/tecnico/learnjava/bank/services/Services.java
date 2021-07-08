@@ -18,12 +18,14 @@ public class Services {
 		account.withdraw(amount);
 	}
 
-	public Account getAccountByIban(String iban) throws BankException {/////////////////////
+	public Account getAccountByIban(String iban) throws BankException {
 		String code = iban.substring(0, 3);
 		String accountId = iban.substring(3);
 
 		Bank bank = Bank.getBankByCode(code);
-		if (bank == null)////////////////ADICIONADO
+		
+		// This if statement was added so if the bank was null, it throws an exception
+		if (bank == null)
 			throw new BankException();
 		Account account = bank.getAccountByAccountId(accountId);
 

@@ -105,8 +105,8 @@ public class Bank {
 		this.accounts.remove(account);
 	}
 
-	public Account getAccountByAccountId(String accountId) throws BankException {/////////////////////////
-		//return this.accounts.stream().filter(a -> a.getAccountId().equals(accountId)).findFirst().orElse(null);
+	public Account getAccountByAccountId(String accountId) throws BankException {
+		// This was changed so it would throw an exception when the account was null
 		 Account acc = this.accounts.stream().filter(a -> a.getAccountId().equals(accountId)).findFirst().orElse(null);
 		 if (acc == null) {
 			 throw new BankException();

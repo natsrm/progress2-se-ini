@@ -63,7 +63,6 @@ public class Operation {
 	}
 
 	public int commission() {
-		//return Math.round(getValue()*0.02*100.0)/100.0;		// Arredondado a duas casas decimais
 		return (int) (getValue()*0.02);
 	}
 

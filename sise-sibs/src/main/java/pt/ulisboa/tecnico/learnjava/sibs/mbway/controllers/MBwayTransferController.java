@@ -9,7 +9,7 @@ import pt.ulisboa.tecnico.learnjava.sibs.mbway.domain.MBway;
 public class MBwayTransferController {
 
 	/* This is the refactor for guideline 'Write clean code - VariableNamingConventions'
-	 * We altered the attribute's name by removing _ */
+	 * We altered the attribute's name by removing the underscore (_) */
 	private String sourcePhone;
 	private String targetPhone;
 	private int amount;

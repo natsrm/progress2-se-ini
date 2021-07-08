@@ -14,7 +14,7 @@ public class Retry extends State {
 	}
 
 	@Override
-	public void pull(Operation wrapper, Services s) throws AccountException, BankException { ////////////////////CONFIRMAR
+	public void pull(Operation wrapper, Services s) throws AccountException, BankException {
 		state.pull(wrapper, s);
 		if (wrapper.getState() instanceof Retry && nTries > 0) {
 			nTries--;
@@ -30,22 +30,3 @@ public class Retry extends State {
 	}
 
 }
-	
-//	try {
-//		s.withdraw(wrapper.getSourceIban(), wrapper.getValue());
-//	} catch (AccountException e) {
-//		if(limit == nTries) {
-//			State m = new Retry();
-//			wrapper.setState(m);
-//		}
-//		if(nTries!=0) {
-//			nTries--;
-//			this.pull(wrapper, s);
-//		}
-//		else
-//			wrapper.setState(new Error());
-//		
-//		}
-//	wrapper.setState(new Withdrawn());  
-//	
-//	}
