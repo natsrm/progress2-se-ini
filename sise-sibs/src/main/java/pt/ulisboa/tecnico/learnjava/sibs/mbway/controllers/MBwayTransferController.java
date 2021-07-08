@@ -8,15 +8,17 @@ import pt.ulisboa.tecnico.learnjava.sibs.mbway.domain.MBway;
 
 public class MBwayTransferController {
 
-	private String source_phone;
-	private String target_phone;
+	/* This is the refactor for guideline 'Write clean code - VariableNamingConventions'
+	 * We altered the attribute's name by removing _ */
+	private String sourcePhone;
+	private String targetPhone;
 	private int amount;
 	private MBway mbway;
 	private Services services = new Services();
 	
 	public MBwayTransferController(String _source_phone, String _target_phone, int _amount, MBway _mbway) {
-		source_phone = _source_phone;
-		target_phone = _target_phone;
+		sourcePhone = _source_phone;
+		targetPhone = _target_phone;
 		amount = _amount;
 		mbway = _mbway;
 	}
@@ -27,10 +29,10 @@ public class MBwayTransferController {
 		} catch (ClientException e1) {
 			return 0;
 		}
-		if (mbway.phoneNumberIsAssociated(source_phone) &&
-				mbway.phoneNumberIsAssociated(target_phone)) {
-			String iban_source = mbway.getIbanByPhoneNumber(source_phone);
-			String iban_target = mbway.getIbanByPhoneNumber(target_phone);
+		if (mbway.phoneNumberIsAssociated(sourcePhone) &&
+				mbway.phoneNumberIsAssociated(targetPhone)) {
+			String iban_source = mbway.getIbanByPhoneNumber(sourcePhone);
+			String iban_target = mbway.getIbanByPhoneNumber(targetPhone);
 			try {
 				services.withdraw(iban_source, amount);
 			} catch (Exception e) {
@@ -47,11 +49,15 @@ public class MBwayTransferController {
 		return 3;
 	}
 	
+	/* This is the refactor for guideline 'Write clean code - IfElseStmtsMustUseBraces'
+	 * We added the braces in lines 55, 57, 58 and 60 */
 	public void checkParameters() throws ClientException {
-		if (source_phone.length() != 9 || !source_phone.matches("[0-9]+"))
+		if (sourcePhone.length() != 9 || !sourcePhone.matches("[0-9]+")) {
 			throw new ClientException();
-		else if (target_phone.length() != 9 || !target_phone.matches("[0-9]+"))
+		}
+		else if (targetPhone.length() != 9 || !targetPhone.matches("[0-9]+")) {
 			throw new ClientException();
+		}
 	}
 	
 }

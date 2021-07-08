@@ -17,6 +17,8 @@ public class MBwaySplitInsuranceController {
 	private MBway mbway;
 	private Services services = new Services();
 	
+	/* This is the refactor for guideline 'Keep Unit Interfaces Small'
+	 * We altered the constructor of class MBwayFriends to receive the other parameters that were eliminated */
 	public MBwaySplitInsuranceController(MBwayFriends _mbway_friends, MBway _mbway) {
 		mbway_friends = _mbway_friends;
 		mbway = _mbway;
@@ -34,23 +36,8 @@ public class MBwaySplitInsuranceController {
 			return parameters_confirmation;
 		else {
 			String target_iban = mbway.getIbanByPhoneNumber(target_phone_number);
-			for (int i = 0; i < num_family_members - 1; i++) {
-				String source_phone_number = mbway_friends.getPhoneNumber(i);
-				int transfer_amount = mbway_friends.getFriendAmount(source_phone_number);
-				String source_iban = mbway.getIbanByPhoneNumber(source_phone_number);
-				try {
-					services.withdraw(source_iban, transfer_amount);
-				} catch (Exception e) {
-					return 9;	//nao tem saldo
-				}
-				try {
-					services.deposit(target_iban, transfer_amount);
-				} catch (Exception e) {
-					services.deposit(source_iban, transfer_amount);
-					return 9;	//nao tem saldo
-				}
-			}
-		return parameters_confirmation;
+			int transfer = transferToTarget(target_iban);
+			return transfer;
 		}
 	}
 	
@@ -74,6 +61,26 @@ public class MBwaySplitInsuranceController {
 			} catch (ClientException e1) {
 				return 8;		// invalid phone number
 			}
+		return 1;
+	}
+	
+	public int transferToTarget(String target_iban) throws AccountException, BankException {
+		for (int i = 0; i < num_family_members - 1; i++) {
+			String source_phone_number = mbway_friends.getPhoneNumber(i);
+			int transfer_amount = mbway_friends.getFriendAmount(source_phone_number);
+			String source_iban = mbway.getIbanByPhoneNumber(source_phone_number);
+			try {
+				services.withdraw(source_iban, transfer_amount);
+			} catch (Exception e) {
+				return 9;	//nao tem saldo
+			}
+			try {
+				services.deposit(target_iban, transfer_amount);
+			} catch (Exception e) {
+				services.deposit(source_iban, transfer_amount);
+				return 9;	//nao tem saldo
+			}
+		}
 		return 1;
 	}
 
